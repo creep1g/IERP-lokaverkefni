@@ -5,7 +5,7 @@ table 50121 Project
     DataClassification = ToBeClassified;
     fields
     {
-        field(1; "Customer No"; Integer)
+        field(1; "Customer No"; Code[20])
         {
             DataClassification = ToBeClassified;
             NotBlank = true;
