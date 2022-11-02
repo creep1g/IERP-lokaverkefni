@@ -57,8 +57,19 @@ page 50122 "Project List"
                 end;
 
             }
+            action("Import XML")
+            {
+                ApplicationArea = All;
+                Image = XMLFile;
+                trigger OnAction()
+                begin
+                    XmlPort.Run(50124, false, true);
+                    Func.getFirst();
+                end;
+            }
         }
     }
 
-
+    var
+        Func: CodeUnit Functions;
 }
