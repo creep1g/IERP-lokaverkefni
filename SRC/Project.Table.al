@@ -26,22 +26,18 @@ table 50121 Project
             DataClassification = ToBeClassified;
         }
 
-        field(5; Quantity; Integer)
+        field(5; Quantity; Text[250])
         {
-            MinValue = 0;
+            NotBlank = true;
         }
 
-        field(6; Price; Decimal)
+        field(6; Price; Text[250])
         {
-            MinValue = 0;
-            DecimalPlaces = 2;
+            NotBlank = true;
         }
 
-        field(7; Discount; Decimal)
+        field(7; Discount; Text[250])
         {
-            MinValue = 0;
-            MaxValue = 100;
-            DecimalPlaces = 2;
         }
     }
 }

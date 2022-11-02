@@ -25,6 +25,7 @@ codeunit 50120 Functions
     var
     begin
         Hdr.Validate("Sell-to Customer No.", Proj."Customer No");
+        Hdr.Validate("Your Reference", Proj.Project);
         Hdr.Modify();
     end;
 
@@ -34,16 +35,18 @@ codeunit 50120 Functions
     begin
         Lines.SetFilter(Lines."Document Type", 'Invoice');
         Lines.SetFilter(Lines."Document No.", Hdr."No.");
-        if Lines.FindFirst() then
-            Lines.Validate("Document Type", Hdr."Document Type");
-        Lines.Validate("Document No.", Hdr."No.");
-        Lines.Validate("Item Reference No.", Proj."Product Number");
-        Lines.Validate(Quantity, Proj.Quantity);
-        Lines.Validate("Unit Price", Proj.Price);
-        Lines.Validate("Line Discount %", Proj.Discount);
-        // if Lines.FindFirst() then
-        Lines.Insert();
 
+        Lines.Validate(Lines."Document Type", Hdr."Document Type");
+        Lines.Validate(Lines."Document No.", Hdr."No.");
+        Lines.Insert();
+        if Lines.FindFirst() then begin
+            Evaluate(Lines.Type, Proj."Resource Type");
+            Lines.Validate("No.", Proj."Product Number");
+            Lines.Validate(Quantity, ConvertStringToDecimal(Proj.Quantity));
+            Lines.Validate("Unit Price", ConvertStringToDecimal(Proj.Price));
+            Lines.Validate("Line Discount %", ConvertStringToDecimal(Proj.Discount));
+        end;
+        Lines.Modify();
     end;
 
     procedure GetNextDocumentNumber(): Code[20]
@@ -66,8 +69,11 @@ codeunit 50120 Functions
 
 
     procedure ConvertStringToDecimal(input: Text[250]): Decimal
+    var
+        Out: Decimal;
     begin
-
+        Evaluate(Out, input);
+        exit(Out);
     end;
 
 }
